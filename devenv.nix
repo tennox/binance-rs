@@ -32,7 +32,7 @@
     nil.enable = true; # nix lsp
     nixpkgs-fmt.enable = true; # nix formatting
 
-    clippy.enable = true;
-    #cargo-check.enable = true; ← if you don't want clippy
+    # clippy.enable = true;
+    cargo-check.enable = true;
   };
 }

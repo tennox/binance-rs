@@ -50,6 +50,7 @@ impl Client {
             .post(url.as_str())
             .headers(self.build_headers(true)?)
             .send()?;
+        // debug!("response:", response);
 
         self.handler(response)
     }
@@ -158,7 +159,14 @@ impl Client {
 
     fn handler<T: DeserializeOwned>(&self, response: Response) -> Result<T> {
         match response.status() {
-            StatusCode::OK => Ok(response.json::<T>()?),
+            StatusCode::OK => {
+                // let body = response.text()?;
+                // serde_json::from_str::<T>(&body).map_err(|err| {
+                //     debug!("Response body: {}", body);
+                //     format!("Failed to decode response: {:?}\n{}", err, body).into()
+                // })
+                Ok(response.json()?) // more performant, less info when it fails 🤷
+            }
             StatusCode::INTERNAL_SERVER_ERROR => {
                 bail!("Internal Server Error");
             }
